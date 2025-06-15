@@ -2,7 +2,7 @@
 FROM gradle:7.4-jdk17 AS builder
 WORKDIR /app
 COPY . .
-RUN gradle build --no-daemon  # или `shadowJar`, если используете плагин
+RUN gradle build --no-daemon
 
 # Шаг 2: Запуск
 FROM openjdk:17-jdk-alpine
