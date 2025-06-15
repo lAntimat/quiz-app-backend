@@ -11,6 +11,12 @@ application {
     mainClass = "io.ktor.server.netty.EngineMain"
 }
 
+ktor {
+    docker {
+        jreVersion.set(JavaVersion.VERSION_17)
+    }
+}
+
 repositories {
     mavenCentral()
 }
