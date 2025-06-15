@@ -2,7 +2,7 @@
 FROM gradle:7.4-jdk17 AS builder
 WORKDIR /app
 COPY . .
-RUN gradle buildFatJar
+RUN gradle build --no-daemon
 
 # Шаг 2: Запуск
 FROM eclipse-temurin:17-jdk-jammy
