@@ -5,7 +5,7 @@ COPY . .
 RUN gradle build --no-daemon
 
 # Шаг 2: Запуск
-FROM openjdk:17-jdk-alpine
+FROM eclipse-temurin:17-jdk-jammy
 WORKDIR /app
 COPY --from=builder /app/build/libs/*.jar app.jar
 EXPOSE 8080
