@@ -42,6 +42,9 @@ fun Application.configureRouting() {
     val logger = LoggerFactory.getLogger("RequestLogger")
 
     routing {
+        get("/") {
+            call.respondText("Hello World!")
+        }
         get("/api/v1/chat/completions") {
             call.respondText("Hello World!")
         }
