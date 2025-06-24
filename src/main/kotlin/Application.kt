@@ -1,5 +1,6 @@
 package com.quiz
 
+import com.quiz.repository.configureDatabase
 import io.ktor.server.application.*
 
 fun main(args: Array<String>) {
@@ -9,4 +10,5 @@ fun main(args: Array<String>) {
 fun Application.module() {
     configureSecurity()
     configureRouting()
+    configureDatabase()
 }
