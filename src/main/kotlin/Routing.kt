@@ -23,8 +23,7 @@ val json = Json {
 }
 
 fun Application.configureRouting() {
-    val token =
-        "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"
+    val token = System.getenv("DEEPSEEK_TOKEN")
 
     val logger = LoggerFactory.getLogger("RequestLogger")
 
