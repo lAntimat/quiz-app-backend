@@ -1,7 +1,8 @@
 package com.quiz.repository
 
-import com.quiz.database.QuestionTable
-import com.quiz.database.QuizTable
+import com.quiz.database.table.QuestionTable
+import com.quiz.database.table.QuizTable
+import com.quiz.database.table.Users
 import io.ktor.server.application.Application
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -34,6 +35,7 @@ private fun initDatabase() {
 
     transaction {
         SchemaUtils.create(QuizTable, QuestionTable)
+        SchemaUtils.create(Users)
     }
 }
 

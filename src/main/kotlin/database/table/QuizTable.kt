@@ -1,4 +1,4 @@
-package com.quiz.database
+package com.quiz.database.table
 
 import org.jetbrains.exposed.dao.id.LongIdTable
 

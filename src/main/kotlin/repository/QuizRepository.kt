@@ -1,17 +1,15 @@
 package com.quiz.repository
 
-import com.quiz.database.QuestionEntity
 import com.quiz.database.QuestionResponse
-import com.quiz.database.QuestionTable
-import com.quiz.database.QuizEntity
+import com.quiz.database.table.QuestionTable
 import com.quiz.database.QuizResponse
-import com.quiz.database.QuizTable
+import com.quiz.database.table.QuizTable
+import com.quiz.database.database.Quiz
 import org.jetbrains.exposed.sql.SortOrder
 
 class QuizRepository {
-    // Quiz operations
-    suspend fun insertQuiz(item: QuizResponse) = dbQuery {
-        QuizEntity.new(item.quizId) {
+    suspend fun insertQuiz(item: Quiz) = dbQuery {
+        QuizEntity.new {
             title = item.title
             createdAt = item.createdAt
             difficulty = item.difficulty
@@ -40,27 +38,27 @@ class QuizRepository {
     }
 
     // Question operations
-    suspend fun insertQuestion(item: QuestionResponse) = dbQuery {
+    suspend fun insertQuestion(item: QuestionResponse, quizId: Long) = dbQuery {
         QuestionEntity.new {
-            quizId = item.quizId
+            this.quizId = quizId
             title = item.title
             variants = item.variants  // Автоматически конвертируется в JSON
             answerKey = item.answerKey
             imageUrl = item.imageUrl
             hint = item.hint
-            orderPosition = item.orderPosition
+            orderPosition = item.orderPosition ?: 0
         }.id.value
     }
 
-    suspend fun updateQuestion(item: QuestionResponse) = dbQuery {
+    suspend fun updateQuestion(item: QuestionResponse, quizId: Long) = dbQuery {
         QuestionEntity[item.id].apply {
-            quizId = item.quizId
+            this.quizId = quizId
             title = item.title
             variants = item.variants
             answerKey = item.answerKey
             imageUrl = item.imageUrl
             hint = item.hint
-            orderPosition = item.orderPosition
+            orderPosition = item.orderPosition ?: 0
         }
     }
 

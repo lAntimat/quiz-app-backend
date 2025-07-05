@@ -4,12 +4,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class QuestionResponse(
-    val id: Long,
-    val quizId: Long,
+    val id: Long = 0,
+    val quizId: Long?,
     val title: String,
     val variants: List<String>,
     val answerKey: Int,
     val imageUrl: String? = null,
     val hint: String,
-    val orderPosition: Int
+    val orderPosition: Int?
 )

@@ -1,5 +1,6 @@
-package com.quiz.database
+package com.quiz.database.table
 
+import com.quiz.database.table.QuizTable
 import org.jetbrains.exposed.dao.id.LongIdTable
 
 object QuestionTable : LongIdTable("questions") {

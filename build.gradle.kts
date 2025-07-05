@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.ktor)
+    kotlin("plugin.serialization") version "1.9.0"
 }
 
 group = "com.quiz"
@@ -27,9 +28,30 @@ dependencies {
     implementation(libs.ktor.server.netty)
     implementation(libs.logback.classic)
     implementation(libs.ktor.server.config.yaml)
+
+    // Основные серверные зависимости
+    implementation("io.ktor:ktor-server-core:2.3.3")
+    implementation("io.ktor:ktor-server-netty:2.3.3") // Или другой engine (jetty, cio и т.д.)
+
+    // Сериализация
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.3")
+    implementation("io.ktor:ktor-server-content-negotiation:2.3.3")
+
+    // Логирование
+    implementation("io.ktor:ktor-server-call-logging:2.3.3")
+    implementation("ch.qos.logback:logback-classic:1.4.7") // Реализация для логов
+
+    // Дополнительные полезные плагины
+    implementation("io.ktor:ktor-server-status-pages:2.3.3") // Обработка ошибок
+    implementation("io.ktor:ktor-server-default-headers:2.3.3") // Стандартные заголовки
+
     implementation("io.ktor:ktor-client-core:3.2.0")
     implementation("io.ktor:ktor-client-cio:3.2.0")
     implementation("io.ktor:ktor-client-logging:3.2.0")
+    implementation("io.ktor:ktor-client-content-negotiation:3.2.0")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:3.2.0")
+
+    implementation("io.ktor:ktor-server-cors:3.2.0")
 
     // Exposed
     implementation("org.jetbrains.exposed:exposed-core:0.41.1")
@@ -45,7 +67,8 @@ dependencies {
     // Для работы с датами (если нужно)
     implementation("org.jetbrains.exposed:exposed-java-time:0.41.1")
 
-
+    // Пароль хеширование
+    implementation("at.favre.lib:bcrypt:0.10.2")
 
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.kotlin.test.junit)

@@ -1,12 +1,12 @@
 package com.quiz.usecases
 
+import com.quiz.database.QuestionResponse
 import com.quiz.database.QuizResponse
+import com.quiz.database.database.Quiz
+import com.quiz.json
 import com.quiz.repository.QuizRepository
-import com.quiz.repository.models.GeneratedQuestionResponse
 import com.quiz.repository.models.OpenApiResponse
 import com.quiz.repository.models.QuizGenerationParams
-import kotlinx.serialization.json.Json
-import kotlin.random.Random
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -18,9 +18,9 @@ class CreateQuizUseCase {
         oldQuizId: Long?,
         result: OpenApiResponse,
         params: QuizGenerationParams
-    ) {
+    ): QuizResponse? {
 
-        handleSuccess(oldQuizId, result, params)
+        return handleSuccess(oldQuizId, result, params)
 
     }
 
@@ -29,8 +29,8 @@ class CreateQuizUseCase {
         oldQuizId: Long?,
         result: OpenApiResponse,
         params: QuizGenerationParams,
-    ): List<GeneratedQuestionResponse> {
-        val contentJson = Json.decodeFromString<List<GeneratedQuestionResponse>>(
+    ): QuizResponse? {
+        val contentJson = json.decodeFromString<List<QuestionResponse>>(
             result.choices.first().message.content
                 .replace("```json", "")  // Удаляем маркеры кода
                 .replace("```", "")
@@ -39,21 +39,18 @@ class CreateQuizUseCase {
 
         println(contentJson)
 
-        val quizId = oldQuizId ?: Random.nextLong()
-
-        quizRepository.insertQuiz(
-            QuizResponse(
-                quizId = quizId,
+        val quizId = quizRepository.insertQuiz(
+            Quiz(
                 title = params.theme,
                 createdAt = Clock.System.now().toEpochMilliseconds(),
-                difficulty = params.level
+                difficulty = params.level,
             )
         )
         contentJson.forEachIndexed { index, question ->
-            //dataSourceManager.insertQuestions(question.toEntity(quizId, index))
+            quizRepository.insertQuestion(question, quizId)
         }
 
-        return contentJson
+        return quizRepository.getQuizById(quizId)
     }
 
 }

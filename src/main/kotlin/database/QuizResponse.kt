@@ -1,12 +1,14 @@
 package com.quiz.database
 
+import QuestionEntity
 import kotlinx.serialization.Serializable
 
-// DTO (Data Transfer Objects)
 @Serializable
 data class QuizResponse(
-    val quizId: Long,
+    val quizId: Long = 0,
     val title: String,
     val createdAt: Long,
-    val difficulty: Int
+    val difficulty: Int,
+    val questionCount: Long = 0,
+    val questions: List<QuestionResponse>? = listOf()
 )
